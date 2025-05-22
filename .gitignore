@@ -399,3 +399,6 @@ FodyWeavers.xsd
 
 .vscode/
 build/
+sdkconfig
+/Aplikacja/.idea
+sdkconfig

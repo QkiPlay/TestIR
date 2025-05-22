@@ -22,8 +22,6 @@
 #define WIFI_SUCCESS 1 << 0
 #define WIFI_FAILURE 1 << 1
 #define MAX_FAILURES 3
-#define SSID
-#define PWD
 
 typedef struct{
 	char tekst[50];
@@ -31,11 +29,15 @@ typedef struct{
 typedef struct{
 	float image[768];
 } Image_p;
+typedef struct{
+	uint16_t frame[834];
+} Frame_t;
 
 void nvs_init();
 void wifi_connect();
 void init_udp_socket();
 void send_udp_data(Data_s *data);
 void send_udp_image(float *image_data);
+void send_udp_frame(uint16_t *frame);
 
 #endif
