@@ -1,10 +1,8 @@
 #include "wifi.h"
+#include "dane_wifi.c"
 
 #define PORT 3333
-#define DEST_IP "172.20.10.3" // Define the destination IP address
-
-#define SSID "Twój stary ajfonowy"
-#define PWD "12345678"
+ // Define the destination IP address
 
 static const char *TAG = "WiFi";
 static EventGroupHandle_t wifi_event_group;
@@ -126,7 +124,9 @@ void init_udp_socket() {
     // Create a socket
     sockt = socket(AF_INET, SOCK_DGRAM, 0);
 
+    
     // Set up the server address
+
     memset(&server_addr, 0, sizeof(server_addr)); // Clear the structure
     server_addr.sin_family = AF_INET; // Use IPv4
     server_addr.sin_addr.s_addr = INADDR_ANY; // Listen on all interfaces
@@ -185,11 +185,11 @@ void send_udp_image(float *image_data) {
 	*/
 }
 
-void send_udp_frame(uint16_t *frame) {
-    Frame_t frame_packet;
-    memset(&frame_packet, 0, sizeof(Frame_t));
+void send_image(int16_t *image) {
+    Int_image_p image_packet;
+    memset(&image_packet, 0, sizeof(Int_image_p));
 
-    memcpy(frame_packet.frame, frame, 834 * sizeof(uint16_t));
+    memcpy(image_packet.image, image, 768 * sizeof(int16_t));
 
     struct sockaddr_in dest_addr;
 
@@ -200,14 +200,5 @@ void send_udp_frame(uint16_t *frame) {
     inet_pton(AF_INET, DEST_IP, &dest_addr.sin_addr); // Convert IP address from text to binary form
 
     // Send the data
-    sendto(sockt, &frame_packet, sizeof(Frame_t), 0, (struct sockaddr *)&dest_addr, sizeof(dest_addr));
-
-	/*Debug, wyświetla wysłane dane.
-    for (int y = 0; y < 24; ++y) {
-        for (int x = 0; x < 32; ++x) {
-            printf("%6.2f ", image_packet.image[y * 32 + x]); // Print each float with 2 decimal places
-        }
-        printf("\n"); // Newline after each row
-    }
-	*/
+    sendto(sockt, &image_packet, sizeof(Int_image_p), 0, (struct sockaddr *)&dest_addr, sizeof(dest_addr));
 }

@@ -13,7 +13,7 @@ const int SDA_PIN = 17;
 
 static int I2C_freq_khz = 400;
 
-extern i2c_master_bus_handle_t main_handle;
+i2c_master_bus_handle_t main_handle;
 
 static i2c_master_bus_config_t master_config = {
     .clk_source = I2C_CLK_SRC_RC_FAST,

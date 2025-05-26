@@ -4,11 +4,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 WIDTH, HEIGHT = 32, 24
-FLOAT_SIZE = 4
-BUFFER_SIZE = WIDTH * HEIGHT * FLOAT_SIZE
+BUFFER_SIZE = WIDTH * HEIGHT * 2
 
-MIN_TEMP = 10.0
-MAX_TEMP = 40.0
+MIN_TEMP = -30
+MAX_TEMP = 30
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind(('0.0.0.0', 3333))
@@ -23,7 +22,7 @@ try:
         data, _ = sock.recvfrom(BUFFER_SIZE)
 
         if len(data) == BUFFER_SIZE:
-            floats = struct.unpack(f'{WIDTH * HEIGHT}f', data)
+            floats = struct.unpack(f'{WIDTH * HEIGHT}h', data)
             temp_array = np.array(floats).reshape((HEIGHT, WIDTH))
 
             # Create a new plot for each packet
@@ -46,7 +45,6 @@ finally:
     for v in Favg.flatten():
         print(f'{v}, ',end="")
     print()
-    Favg.tofile("/home/qki/Documents/NUC.dat")
     plt.figure()
     plt.imshow(Favg, cmap='binary')
     plt.colorbar()

@@ -29,15 +29,16 @@ typedef struct{
 typedef struct{
 	float image[768];
 } Image_p;
+
 typedef struct{
-	uint16_t frame[834];
-} Frame_t;
+	int16_t image[768];
+} Int_image_p;
 
 void nvs_init();
 void wifi_connect();
 void init_udp_socket();
 void send_udp_data(Data_s *data);
 void send_udp_image(float *image_data);
-void send_udp_frame(uint16_t *frame);
+void send_image(int16_t *image);
 
 #endif

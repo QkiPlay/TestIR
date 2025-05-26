@@ -402,3 +402,4 @@ build/
 sdkconfig
 /Aplikacja/.idea
 sdkconfig
+main/dane_wifi.c
